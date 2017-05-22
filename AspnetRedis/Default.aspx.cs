@@ -12,7 +12,7 @@ namespace AspnetRedis
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string host = System.Environment.GetEnvironmentVariable("REDIS_HOST", System.EnvironmentVariableTarget.User);
+            string host = System.Environment.GetEnvironmentVariable("REDIS_HOST", System.EnvironmentVariableTarget.Machine);
             if (String.IsNullOrEmpty(host))
             {
                 this.Page.Response.Write("REDIS_HOST is not set.");
