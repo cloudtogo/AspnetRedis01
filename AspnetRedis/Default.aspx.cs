@@ -12,14 +12,14 @@ namespace AspnetRedis
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string host = System.Environment.GetEnvironmentVariable("REDIS_HOST", System.EnvironmentVariableTarget.Machine);
-            if (String.IsNullOrEmpty(host))
-            {
-                this.Page.Response.Write("REDIS_HOST is not set.");
-                return;
-            }
+//             string host = System.Environment.GetEnvironmentVariable("REDIS_HOST", System.EnvironmentVariableTarget.Machine);
+//             if (String.IsNullOrEmpty(host))
+//             {
+//                 this.Page.Response.Write("REDIS_HOST is not set.");
+//                 return;
+//             }
 
-            ConnectionMultiplexer conn = ConnectionMultiplexer.Connect(host + ":6379");
+            ConnectionMultiplexer conn = ConnectionMultiplexer.Connect("fixenvreading-redis2-redis2.f826.svc:6379");
             IDatabase db = conn.GetDatabase();
             
             string uuid = Guid.NewGuid().ToString();
