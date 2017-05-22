@@ -19,7 +19,7 @@ namespace AspnetRedis
 //                 return;
 //             }
 
-            ConnectionMultiplexer conn = ConnectionMultiplexer.Connect("fixenvreading-redis2-redis2.f826.svc:6379");
+            ConnectionMultiplexer conn = ConnectionMultiplexer.Connect("fixenvreading-redis2-redis2.f822.svc:6379");
             IDatabase db = conn.GetDatabase();
             
             string uuid = Guid.NewGuid().ToString();
