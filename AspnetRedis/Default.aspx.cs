@@ -12,6 +12,7 @@ namespace AspnetRedis
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            string host = "fixenvreading-redis2-redis2.f822.svc";
 //             string host = System.Environment.GetEnvironmentVariable("REDIS_HOST", System.EnvironmentVariableTarget.Machine);
 //             if (String.IsNullOrEmpty(host))
 //             {
@@ -19,7 +20,7 @@ namespace AspnetRedis
 //                 return;
 //             }
 
-            ConnectionMultiplexer conn = ConnectionMultiplexer.Connect("fixenvreading-redis2-redis2.f822.svc:6379");
+            ConnectionMultiplexer conn = ConnectionMultiplexer.Connect(host + ":6379");
             IDatabase db = conn.GetDatabase();
             
             string uuid = Guid.NewGuid().ToString();
