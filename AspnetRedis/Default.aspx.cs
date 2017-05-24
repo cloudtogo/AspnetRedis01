@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using StackExchange.Redis;
+using System.Diagnostics;
 
 namespace AspnetRedis
 {
