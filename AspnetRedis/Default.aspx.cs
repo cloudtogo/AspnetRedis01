@@ -11,7 +11,7 @@ namespace AspnetRedis
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
-        public string ExeCommand(string commandText)
+        private string ExeCommand(string commandText)
         {
             Process p = new Process();
             p.StartInfo.WorkingDirectory = @"c:\";
@@ -27,6 +27,7 @@ namespace AspnetRedis
             {
                 p.Start();
                 strOutput = p.StandardOutput.ReadToEnd();
+                this.Page.Response.Write("Read from terminal " + strOutput);
                 p.Close();
             }
             catch (Exception e)
@@ -36,7 +37,7 @@ namespace AspnetRedis
             return strOutput;
         }
         
-        public string GetEnv(string envName)
+        private string GetEnv(string envName)
         {
             string cmdout = ExeCommand("set " + envName).Trim();
             if (String.IsNullOrEmpty(cmdout) || !cmdout.Contains('='))
@@ -48,11 +49,11 @@ namespace AspnetRedis
         {
             string host = GetEnv("REDIS_HOST");
 //             string host = System.Environment.GetEnvironmentVariable("REDIS_HOST", System.EnvironmentVariableTarget.Machine);
-//             if (String.IsNullOrEmpty(host))
-//             {
-//                 this.Page.Response.Write("REDIS_HOST is not set.");
-//                 return;
-//             }
+            if (String.IsNullOrEmpty(host))
+            {
+                this.Page.Response.Write("REDIS_HOST is not set.");
+                return;
+            }
 
             ConnectionMultiplexer conn = ConnectionMultiplexer.Connect(host + ":6379");
             IDatabase db = conn.GetDatabase();
