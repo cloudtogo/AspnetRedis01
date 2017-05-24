@@ -10,9 +10,42 @@ namespace AspnetRedis
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
+        public string ExeCommand(string commandText)
+        {
+            Process p = new Process();
+            p.StartInfo.WorkingDirectory = @"c:\";
+            p.StartInfo.FileName = "cmd.exe";
+            p.StartInfo.Arguments = "/c " + commandText;
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardInput = true;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.RedirectStandardError = true;
+            p.StartInfo.CreateNoWindow = true;
+            string strOutput = null;
+            try
+            {
+                p.Start();
+                strOutput = p.StandardOutput.ReadToEnd();
+                p.Close();
+            }
+            catch (Exception e)
+            {
+                strOutput = e.Message;
+            }
+            return strOutput;
+        }
+        
+        public string GetEnv(string envName)
+        {
+            string cmdout = ExeCommand("set " + envName).Trim();
+            if (String.IsNullOrEmpty(cmdout) || !cmdout.Contains('='))
+                return null;
+            return cmdout.Split('=')[1].Split('\n')[0].Trim();
+        }
+        
         protected void Page_Load(object sender, EventArgs e)
         {
-            string host = "fixenvreading-redis2-redis2.f822.svc";
+            string host = GetEnv("REDIS_HOST");
 //             string host = System.Environment.GetEnvironmentVariable("REDIS_HOST", System.EnvironmentVariableTarget.Machine);
 //             if (String.IsNullOrEmpty(host))
 //             {
