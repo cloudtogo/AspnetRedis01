@@ -5,50 +5,14 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using StackExchange.Redis;
-using System.Diagnostics;
 
 namespace AspnetRedis
 {
     public partial class WebForm1 : System.Web.UI.Page
-    {
-        private string ExeCommand(string commandText)
-        {
-            Process p = new Process();
-            p.StartInfo.WorkingDirectory = @"c:\";
-            p.StartInfo.FileName = "cmd.exe";
-            p.StartInfo.Arguments = "/c " + commandText;
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardInput = true;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.RedirectStandardError = true;
-            p.StartInfo.CreateNoWindow = true;
-            string strOutput = null;
-            try
-            {
-                p.Start();
-                strOutput = p.StandardOutput.ReadToEnd();
-                this.Page.Response.Write("Read from terminal " + strOutput);
-                p.Close();
-            }
-            catch (Exception e)
-            {
-                strOutput = e.Message;
-            }
-            return strOutput;
-        }
-        
-        private string GetEnv(string envName)
-        {
-            string cmdout = ExeCommand("set " + envName).Trim();
-            if (String.IsNullOrEmpty(cmdout) || !cmdout.Contains('='))
-                return null;
-            return cmdout.Split('=')[1].Split('\n')[0].Trim();
-        }
-        
+    {   
         protected void Page_Load(object sender, EventArgs e)
         {
-            string host = GetEnv("REDIS_HOST");
-//             string host = System.Environment.GetEnvironmentVariable("REDIS_HOST", System.EnvironmentVariableTarget.Machine);
+            string host = System.Environment.GetEnvironmentVariable("REDIS_HOST");
             if (String.IsNullOrEmpty(host))
             {
                 this.Page.Response.Write("REDIS_HOST is not set.");
