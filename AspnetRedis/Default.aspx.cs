@@ -25,7 +25,6 @@ namespace AspnetRedis
             string uuid = Guid.NewGuid().ToString();
             db.StringAppend("uuids", uuid + "|");
             string uuids = db.StringGet("uuids");
-            
             this.Page.Response.Write("host = " + host + " ,uuids = " + uuids);
         }
     }
